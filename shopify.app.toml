@@ -1,21 +1,25 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "3edae433290ff66aa6b991d51e842eeb"
-application_url = "https://timely-optimum-isle-teddy.trycloudflare.com"
+application_url = "https://nested-belle-goods-roles.trycloudflare.com"
 embedded = true
 name = "jean-mvp-2"
 handle = "jean-mvp-2"
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "jean-personalization.myshopify.com"
 
 [webhooks]
 api_version = "2025-01"
 
   [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
-
-  [[webhooks.subscriptions]]
   topics = [ "app/scopes_update" ]
   uri = "/webhooks/app/scopes_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
@@ -23,14 +27,10 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://timely-optimum-isle-teddy.trycloudflare.com/auth/callback",
-  "https://timely-optimum-isle-teddy.trycloudflare.com/auth/shopify/callback",
-  "https://timely-optimum-isle-teddy.trycloudflare.com/api/auth/callback"
+  "https://nested-belle-goods-roles.trycloudflare.com/auth/callback",
+  "https://nested-belle-goods-roles.trycloudflare.com/auth/shopify/callback",
+  "https://nested-belle-goods-roles.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
 embedded = false
-
-[build]
-dev_store_url = "jean-personalization.myshopify.com"
-automatically_update_urls_on_dev = true

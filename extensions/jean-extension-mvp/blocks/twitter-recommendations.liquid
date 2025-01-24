@@ -1,0 +1,48 @@
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "target": "section",
+  "stylesheet": "recommendations.css",
+  "javascript": "recommendations.js",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Personalized Recommendations"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 4,
+      "label": "Number of products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Twitter Product Recommendations"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="twitter-recommendations" id="twitter-recommendations-{{ block.id }}">
+  <h2>{{ block.settings.heading }}</h2>
+  <div class="recommendations-grid">
+    {% if recommendations.size > 0 %}
+      {% for product in recommendations limit: block.settings.products_to_show %}
+        <div class="recommendation-item">
+          <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+          <h3>{{ product.title }}</h3>
+          <p class="price">{{ product.price | money }}</p>
+          <a href="{{ product.url }}" class="button">View Product</a>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-recommendations">Connect your Twitter profile to see personalized recommendations!</p>
+    {% endif %}
+  </div>
+</div>
