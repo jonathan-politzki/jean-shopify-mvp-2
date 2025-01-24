@@ -14,9 +14,5 @@ extension_points = [
 api_access = true
 network_access = true
 
-# Define settings that will be available in the theme editor
-[[settings]]
-label = "Heading"
-id = "heading"
-type = "text"
-default = "My Extension"
+[settings]
+heading = { type = "text", label = "Heading", default = "My Extension" }
