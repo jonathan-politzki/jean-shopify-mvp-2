@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
 import {
   Page,
@@ -11,21 +11,31 @@ import {
   List,
   Link,
   InlineStack,
+  Banner,
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server";
+import TwitterPopup from "../components/TwitterPopup";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
-
   return null;
 };
 
 export const action = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
-  const color = ["Red", "Orange", "Yellow", "Green"][
-    Math.floor(Math.random() * 4)
-  ];
+  const formData = await request.formData();
+  const twitterUrl = formData.get("twitterUrl");
+
+  if (twitterUrl) {
+    // Handle Twitter URL submission
+    console.log("Processing Twitter URL:", twitterUrl);
+    // Add your Twitter processing logic here
+    return { success: true, twitterUrl };
+  }
+
+  // Original product creation logic
+  const color = ["Red", "Orange", "Yellow", "Green"][Math.floor(Math.random() * 4)];
   const response = await admin.graphql(
     `#graphql
       mutation populateProduct($product: ProductCreateInput!) {
@@ -54,11 +64,13 @@ export const action = async ({ request }) => {
           title: `${color} Snowboard`,
         },
       },
-    },
+    }
   );
+
   const responseJson = await response.json();
   const product = responseJson.data.productCreate.product;
   const variantId = product.variants.edges[0].node.id;
+
   const variantResponse = await admin.graphql(
     `#graphql
     mutation shopifyRemixTemplateUpdateVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
@@ -76,8 +88,9 @@ export const action = async ({ request }) => {
         productId: product.id,
         variants: [{ id: variantId, price: "100.00" }],
       },
-    },
+    }
   );
+
   const variantResponseJson = await variantResponse.json();
 
   return {
@@ -89,28 +102,41 @@ export const action = async ({ request }) => {
 export default function Index() {
   const fetcher = useFetcher();
   const shopify = useAppBridge();
-  const isLoading =
-    ["loading", "submitting"].includes(fetcher.state) &&
-    fetcher.formMethod === "POST";
-  const productId = fetcher.data?.product?.id.replace(
-    "gid://shopify/Product/",
-    "",
-  );
+  const [showTwitterPopup, setShowTwitterPopup] = useState(false);
+
+  const isLoading = ["loading", "submitting"].includes(fetcher.state) && fetcher.formMethod === "POST";
+  const productId = fetcher.data?.product?.id.replace("gid://shopify/Product/", "");
 
   useEffect(() => {
     if (productId) {
       shopify.toast.show("Product created");
     }
   }, [productId, shopify]);
+
   const generateProduct = () => fetcher.submit({}, { method: "POST" });
+
+  const handleTwitterSubmit = (url) => {
+    fetcher.submit(
+      { twitterUrl: url },
+      { method: "POST" }
+    );
+    setShowTwitterPopup(false);
+  };
 
   return (
     <Page>
-      <TitleBar title="Remix app template">
-        <button variant="primary" onClick={generateProduct}>
-          Generate a product
-        </button>
+      <TitleBar title="Twitter Product Recommendations">
+        <Button primary onClick={() => setShowTwitterPopup(true)}>
+          Get Twitter Recommendations
+        </Button>
       </TitleBar>
+
+      <TwitterPopup
+        active={showTwitterPopup}
+        onClose={() => setShowTwitterPopup(false)}
+        onSubmit={handleTwitterSubmit}
+      />
+
       <BlockStack gap="500">
         <Layout>
           <Layout.Section>
@@ -118,7 +144,35 @@ export default function Index() {
               <BlockStack gap="500">
                 <BlockStack gap="200">
                   <Text as="h2" variant="headingMd">
-                    Congrats on creating a new Shopify app 🎉
+                    Get Product Recommendations 🎉
+                  </Text>
+                  <Text variant="bodyMd" as="p">
+                    Connect your Twitter profile to receive personalized product recommendations
+                    based on your social media presence. We'll analyze your profile to suggest
+                    products that match your interests and style.
+                  </Text>
+                </BlockStack>
+                <InlineStack gap="300">
+                  <Button 
+                    primary
+                    onClick={() => setShowTwitterPopup(true)}
+                  >
+                    Connect Twitter Profile
+                  </Button>
+                </InlineStack>
+                {fetcher.data?.twitterUrl && (
+                  <Banner status="success">
+                    Successfully connected Twitter profile: {fetcher.data.twitterUrl}
+                  </Banner>
+                )}
+              </BlockStack>
+            </Card>
+
+            <Card>
+              <BlockStack gap="500">
+                <BlockStack gap="200">
+                  <Text as="h2" variant="headingMd">
+                    App Development Resources
                   </Text>
                   <Text variant="bodyMd" as="p">
                     This embedded app template uses{" "}
@@ -147,7 +201,7 @@ export default function Index() {
                 </BlockStack>
                 <BlockStack gap="200">
                   <Text as="h3" variant="headingMd">
-                    Get started with products
+                    Product Generation Demo
                   </Text>
                   <Text as="p" variant="bodyMd">
                     Generate a product with GraphQL and get the JSON output for
@@ -219,8 +273,31 @@ export default function Index() {
               </BlockStack>
             </Card>
           </Layout.Section>
+
           <Layout.Section variant="oneThird">
             <BlockStack gap="500">
+              <Card>
+                <BlockStack gap="200">
+                  <Text as="h2" variant="headingMd">
+                    How It Works
+                  </Text>
+                  <List>
+                    <List.Item>
+                      Connect your Twitter profile
+                    </List.Item>
+                    <List.Item>
+                      Our AI analyzes your interests
+                    </List.Item>
+                    <List.Item>
+                      Receive personalized product suggestions
+                    </List.Item>
+                    <List.Item>
+                      Update recommendations anytime
+                    </List.Item>
+                  </List>
+                </BlockStack>
+              </Card>
+
               <Card>
                 <BlockStack gap="200">
                   <Text as="h2" variant="headingMd">
@@ -288,6 +365,7 @@ export default function Index() {
                   </BlockStack>
                 </BlockStack>
               </Card>
+
               <Card>
                 <BlockStack gap="200">
                   <Text as="h2" variant="headingMd">
@@ -307,7 +385,7 @@ export default function Index() {
                       to get started
                     </List.Item>
                     <List.Item>
-                      Explore Shopify’s API with{" "}
+                      Explore Shopify's API with{" "}
                       <Link
                         url="https://shopify.dev/docs/apps/tools/graphiql-admin-api"
                         target="_blank"
