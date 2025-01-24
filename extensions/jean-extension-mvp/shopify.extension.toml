@@ -1,3 +1,25 @@
 name = "jean-extension-mvp"
 type = "theme"
 
+# Define where the extension can be placed in the theme
+extension_points = [
+  'Product.Layout.Start',
+  'Product.Layout.End',
+  'Cart.Lines.Start',
+  'Cart.Lines.End'
+]
+
+# Add necessary capabilities for API access and network requests
+[capabilities]
+api_access = true
+network_access = true
+
+# Define settings that will be available in the theme editor
+[settings]
+type = "object"
+[settings.fields]
+[[settings.fields.settings]]
+type = "text"
+id = "heading"
+label = "Heading"
+default = "My Extension"
