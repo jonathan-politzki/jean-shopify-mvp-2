@@ -1,0 +1,110 @@
+.twitter-widget {
+    --primary-color: #1DA1F2;
+  }
+  
+  /* Floating Button */
+  .twitter-floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+  }
+  
+  .twitter-floating-button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .twitter-icon {
+    font-size: 20px;
+  }
+  
+  /* Popup Dialog */
+  .twitter-popup {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 360px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+  }
+  
+  .twitter-popup::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .twitter-popup__content {
+    padding: 20px;
+  }
+  
+  .twitter-popup__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .twitter-popup__header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .twitter-popup__body p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .twitter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .twitter-form input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .submit-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .submit-button:hover {
+    background-color: #1a8cd8;
+  }
