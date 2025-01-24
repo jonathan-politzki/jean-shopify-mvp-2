@@ -9,6 +9,7 @@ handle = "jean-mvp-2"
 [build]
 automatically_update_urls_on_dev = true
 dev_store_url = "jean-personalization.myshopify.com"
+include_config_on_deploy = true
 
 [webhooks]
 api_version = "2025-01"
