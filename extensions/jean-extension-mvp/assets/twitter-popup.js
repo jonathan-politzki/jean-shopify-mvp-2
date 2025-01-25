@@ -19,30 +19,43 @@ function openTwitterPopup() {
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('twitter-form');
     
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const twitterUrl = document.getElementById('twitter-url').value;
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
       
-      // Send to your app's backend
-      fetch('/apps/twitter-recommendations/connect', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ twitterUrl })
-      })
-      .then(response => response.json())
-      .then(data => {
+      try {
+        submitButton.textContent = 'Processing...';
+        submitButton.disabled = true;
+        
+        const response = await fetch('/apps/twitter-recommendations/connect', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({ 
+            twitterUrl,
+            context: 'theme'
+          })
+        });
+
+        const data = await response.json();
+        
         if (data.success) {
           closeTwitterPopup();
-          // Show success message
-          alert('Twitter profile connected successfully!');
+          alert('Twitter profile connected! ' + (data.recommendations || 'Processing recommendations...'));
+        } else {
+          throw new Error(data.error || 'Failed to process request');
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error:', error);
-        alert('Failed to connect Twitter profile. Please try again.');
-      });
+        alert('Failed to connect Twitter profile. Please try again. ' + error.message);
+      } finally {
+        submitButton.textContent = originalButtonText;
+        submitButton.disabled = false;
+      }
     });
   });
