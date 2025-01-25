@@ -8,7 +8,6 @@ function closeTwitterPopup() {
     dialog.close();
 }
   
-// Close popup when clicking outside
 document.addEventListener('click', function(event) {
     const dialog = document.getElementById('twitter-popup');
     if (event.target === dialog) {
@@ -32,7 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('Sending request with URL:', twitterUrl);
 
-            const response = await fetch('/proxy/twitter-recommendations', {
+            // Use the proper proxy endpoint format for theme extensions
+            const appUrl = window.location.origin + '/apps/twitter-recommendations';
+            const response = await fetch(appUrl + '/proxy/twitter-recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
