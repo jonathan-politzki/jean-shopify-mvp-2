@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('Sending request with URL:', twitterUrl);
 
-            const response = await fetch('/api/twitter-recommendations/connect', {
+            const response = await fetch('/proxy/twitter-recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

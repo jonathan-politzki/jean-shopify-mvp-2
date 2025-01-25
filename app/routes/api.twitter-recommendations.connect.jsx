@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { ApifyClient } from 'apify-client';
-import { prisma } from "~/db.server";
+import { prisma } from "../db.server";
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
