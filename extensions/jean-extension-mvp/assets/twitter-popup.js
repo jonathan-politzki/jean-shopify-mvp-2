@@ -31,9 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('Sending request with URL:', twitterUrl);
 
-            // Use the proper proxy endpoint format for theme extensions
-            const appUrl = window.location.origin + '/apps/twitter-recommendations';
-            const response = await fetch(appUrl + '/proxy/twitter-recommendations', {
+            // Simplified endpoint URL
+            const response = await fetch('/apps/twitter-recommendations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
