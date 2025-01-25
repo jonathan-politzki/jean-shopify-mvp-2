@@ -38,5 +38,5 @@ embedded = false
 
 [app_proxy]
 url = "https://serve-bangkok-drops-mazda.trycloudflare.com"
-subpath = "twitter-recommendations"
-prefix = "proxy"
+subpath = "recommendations"
+prefix = "apps"
