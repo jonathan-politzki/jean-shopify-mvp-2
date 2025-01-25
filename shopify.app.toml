@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "3edae433290ff66aa6b991d51e842eeb"
-application_url = "https://bye-gold-vincent-academics.trycloudflare.com"
+application_url = "https://less-percentage-ipaq-complete.trycloudflare.com"
 embedded = true
 name = "jean-mvp-2"
 handle = "jean-mvp-2"
@@ -28,9 +28,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://bye-gold-vincent-academics.trycloudflare.com/auth/callback",
-  "https://bye-gold-vincent-academics.trycloudflare.com/auth/shopify/callback",
-  "https://bye-gold-vincent-academics.trycloudflare.com/api/auth/callback"
+  "https://less-percentage-ipaq-complete.trycloudflare.com/auth/callback",
+  "https://less-percentage-ipaq-complete.trycloudflare.com/auth/shopify/callback",
+  "https://less-percentage-ipaq-complete.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
