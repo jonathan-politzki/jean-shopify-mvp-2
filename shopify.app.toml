@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "3edae433290ff66aa6b991d51e842eeb"
-application_url = "https://serve-bangkok-drops-mazda.trycloudflare.com"
+application_url = "https://treo-attacked-v-yen.trycloudflare.com"
 embedded = true
 name = "jean-mvp-2"
 handle = "jean-mvp-2"
@@ -28,15 +28,15 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://serve-bangkok-drops-mazda.trycloudflare.com/auth/callback",
-  "https://serve-bangkok-drops-mazda.trycloudflare.com/auth/shopify/callback",
-  "https://serve-bangkok-drops-mazda.trycloudflare.com/api/auth/callback"
+  "https://treo-attacked-v-yen.trycloudflare.com/auth/callback",
+  "https://treo-attacked-v-yen.trycloudflare.com/auth/shopify/callback",
+  "https://treo-attacked-v-yen.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
 embedded = false
 
 [app_proxy]
-url = "https://serve-bangkok-drops-mazda.trycloudflare.com"
+url = "https://treo-attacked-v-yen.trycloudflare.com"
 subpath = "recommendations"
 prefix = "apps"

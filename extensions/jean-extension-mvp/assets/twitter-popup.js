@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('Sending request with URL:', twitterUrl);
 
-            // Simplified endpoint URL
-            const response = await fetch('/apps/twitter-recommendations', {
+            // Use the proxy path that matches our configuration
+            const response = await fetch('/apps/recommendations/twitter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             console.log('Raw response:', response);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const responseText = await response.text();
             console.log('Response text:', responseText);
 
