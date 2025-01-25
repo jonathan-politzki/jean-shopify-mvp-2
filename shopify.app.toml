@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "3edae433290ff66aa6b991d51e842eeb"
-application_url = "https://collar-meets-arena-handbook.trycloudflare.com"
+application_url = "https://cigarette-era-ppm-laws.trycloudflare.com"
 embedded = true
 name = "jean-mvp-2"
 handle = "jean-mvp-2"
@@ -28,9 +28,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://collar-meets-arena-handbook.trycloudflare.com/auth/callback",
-  "https://collar-meets-arena-handbook.trycloudflare.com/auth/shopify/callback",
-  "https://collar-meets-arena-handbook.trycloudflare.com/api/auth/callback"
+  "https://cigarette-era-ppm-laws.trycloudflare.com/auth/callback",
+  "https://cigarette-era-ppm-laws.trycloudflare.com/auth/shopify/callback",
+  "https://cigarette-era-ppm-laws.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

@@ -1,61 +1,70 @@
 function openTwitterPopup() {
     const dialog = document.getElementById('twitter-popup');
     dialog.showModal();
-  }
+}
   
-  function closeTwitterPopup() {
+function closeTwitterPopup() {
     const dialog = document.getElementById('twitter-popup');
     dialog.close();
-  }
+}
   
-  // Close popup when clicking outside
-  document.addEventListener('click', function(event) {
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
     const dialog = document.getElementById('twitter-popup');
     if (event.target === dialog) {
-      dialog.close();
+        dialog.close();
     }
-  });
+});
   
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('twitter-form');
     
     form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const twitterUrl = document.getElementById('twitter-url').value;
-      const submitButton = form.querySelector('button[type="submit"]');
-      const originalButtonText = submitButton.textContent;
-      
-      try {
-        submitButton.textContent = 'Processing...';
-        submitButton.disabled = true;
+        e.preventDefault();
         
-        const response = await fetch('/apps/twitter-recommendations/connect', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          body: JSON.stringify({ 
-            twitterUrl,
-            context: 'theme'
-          })
-        });
+        const twitterUrl = document.getElementById('twitter-url').value;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        
+        try {
+            submitButton.textContent = 'Processing...';
+            submitButton.disabled = true;
+            
+            console.log('Sending request with URL:', twitterUrl);
 
-        const data = await response.json();
-        
-        if (data.success) {
-          closeTwitterPopup();
-          alert('Twitter profile connected! ' + (data.recommendations || 'Processing recommendations...'));
-        } else {
-          throw new Error(data.error || 'Failed to process request');
+            const response = await fetch('/api/twitter-recommendations/connect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ twitterUrl })
+            });
+
+            console.log('Raw response:', response);
+            const responseText = await response.text();
+            console.log('Response text:', responseText);
+
+            let data;
+            try {
+                data = JSON.parse(responseText);
+            } catch (parseError) {
+                console.error('JSON Parse Error:', parseError);
+                throw new Error('Server returned invalid JSON');
+            }
+            
+            if (data.success) {
+                closeTwitterPopup();
+                const message = `Successfully processed ${data.tweetCount} tweets for @${data.handle}`;
+                alert(message);
+            } else {
+                throw new Error(data.error || 'Failed to process request');
+            }
+        } catch (error) {
+            console.error('Full Error Details:', error);
+            alert('Failed to connect Twitter profile. Please try again. ' + error.message);
+        } finally {
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
         }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to connect Twitter profile. Please try again. ' + error.message);
-      } finally {
-        submitButton.textContent = originalButtonText;
-        submitButton.disabled = false;
-      }
     });
-  });
+});
